@@ -14,6 +14,11 @@ async def create_quiz_in_bot(client: Client, quiz):
     """
     Create a quiz in @QuizBot using the provided quiz data.
     
+    Note: The exact interaction protocol with @QuizBot may vary.
+    This implementation uses a general approach that should work
+    with most quiz bots. You may need to adjust the commands and
+    flow based on @QuizBot's specific requirements.
+    
     Args:
         client: Kurigram Client instance
         quiz: Quiz object containing quiz data
@@ -28,47 +33,57 @@ async def create_quiz_in_bot(client: Client, quiz):
         print(f"{'='*60}\n")
         
         # Start conversation with QuizBot
+        print("Starting conversation with @QuizBot...")
         await client.send_message(bot_username, "/start")
         await asyncio.sleep(2)
         
         # Send /newquiz command to create a new quiz
+        print("Sending /newquiz command...")
         await client.send_message(bot_username, "/newquiz")
         await asyncio.sleep(2)
         
         # Send quiz name
+        print(f"Sending quiz name: {quiz.name}")
         await client.send_message(bot_username, quiz.name)
         await asyncio.sleep(2)
         
         # Send quiz description
+        print(f"Sending description: {quiz.description[:50]}...")
         await client.send_message(bot_username, quiz.description)
         await asyncio.sleep(2)
         
         # Send each question
         for idx, question in enumerate(quiz.questions, 1):
-            print(f"Sending question {idx}/{len(quiz.questions)}: {question.question[:50]}...")
+            print(f"\nQuestion {idx}/{len(quiz.questions)}: {question.question[:50]}...")
             
             # Send question text
             await client.send_message(bot_username, question.question)
             await asyncio.sleep(2)
             
-            # Send answers
-            for answer in question.answers:
+            # Send answers one by one
+            for i, answer in enumerate(question.answers, 1):
+                is_correct = answer == question.correct_answer
+                print(f"  Answer {i}: {answer[:30]}... {'✓ (correct)' if is_correct else ''}")
                 await client.send_message(bot_username, answer)
                 await asyncio.sleep(1)
                 
             # Mark correct answer (might need to send the answer text again or a specific command)
             # This depends on QuizBot's exact protocol
             # Some bots require you to select/mark the correct answer
+            print(f"  Marking correct answer: {question.correct_answer[:30]}...")
             await asyncio.sleep(2)
             
         # Finish quiz creation (send /done or similar command)
+        print("\nFinishing quiz creation...")
         await client.send_message(bot_username, "/done")
         await asyncio.sleep(2)
         
-        print(f"✓ Successfully created quiz: {quiz.name}\n")
+        print(f"\n✓ Successfully created quiz: {quiz.name}\n")
         
     except Exception as e:
-        print(f"✗ Error creating quiz {quiz.name}: {e}")
+        print(f"\n✗ Error creating quiz {quiz.name}: {e}")
+        import traceback
+        traceback.print_exc()
         raise
 
 
