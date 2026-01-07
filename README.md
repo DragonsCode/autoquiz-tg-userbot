@@ -56,16 +56,17 @@ Create `.txt` files in the `quizzes` folder with the following format:
 Quiz Name
 Quiz Description
 Question 1 text
-Answer option 1
-Answer option 2
-Answer option 3
-Answer option 4
-Answer option 2
+Answer option A
+Answer option B
+Answer option C
+Answer option D
+Answer option B
 Question 2 text
-Answer option 1
-Answer option 2
-Answer option 3
-Answer option 1
+Answer option W
+Answer option X
+Answer option Y
+Answer option Z
+Answer option Z
 ...
 ```
 
@@ -75,6 +76,7 @@ Answer option 1
 - **Lines 3+**: Questions and answers
   - Each question followed by its answer options (one per line)
   - The correct answer is **duplicated** on the next line after all answers
+  - Must be an exact text match of one of the 4 answer options
 
 **Example:** See `quizzes/example_python_basics.txt`
 
@@ -132,6 +134,16 @@ autoquiz-tg-userbot/
 **Authentication issues**
 - Delete the `autoquiz_session.session` file and try again
 - Make sure your phone number is in international format (+1234567890)
+
+**Quiz creation issues**
+- The bot interaction with @QuizBot depends on its specific protocol
+- If quizzes are not created correctly, you may need to adjust the commands in `main.py`
+- Monitor the Telegram conversation to see what @QuizBot expects
+- The current implementation sends: /start, /newquiz, name, description, questions, answers, /done
+
+## Important Notes
+
+⚠️ **@QuizBot Protocol**: The exact interaction protocol with @QuizBot may vary and is not officially documented. The implementation uses a general approach that should work with most quiz bots. You may need to adjust the message flow in `main.py` based on @QuizBot's actual behavior. Test with a single quiz first to verify the interaction works correctly.
 
 ## License
 

@@ -67,10 +67,15 @@ async def create_quiz_in_bot(client: Client, quiz):
                 await client.send_message(bot_username, answer)
                 await asyncio.sleep(1)
                 
-            # Mark correct answer (might need to send the answer text again or a specific command)
-            # This depends on QuizBot's exact protocol
-            # Some bots require you to select/mark the correct answer
-            print(f"  Marking correct answer: {question.correct_answer[:30]}...")
+            # Mark correct answer
+            # NOTE: The exact method to mark the correct answer depends on @QuizBot's protocol.
+            # Common approaches include:
+            # - Sending a number (1-4) to indicate which answer is correct
+            # - Sending a special command with the answer index
+            # - The bot auto-detecting based on inline buttons/keyboard
+            # You may need to adjust this section based on @QuizBot's actual behavior.
+            # For now, we wait for the bot to prompt for the correct answer.
+            print(f"  Waiting for bot to accept correct answer marking...")
             await asyncio.sleep(2)
             
         # Finish quiz creation (send /done or similar command)

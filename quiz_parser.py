@@ -91,9 +91,15 @@ def parse_quiz_file(filepath: str) -> Optional[Quiz]:
             
             # Verify that the correct answer matches one of the options
             if correct_answer not in answers:
-                print(f"Warning: Correct answer '{correct_answer}' not found in answers for question '{question_text[:50]}...'")
-                # Try to find the closest match
-                correct_answer = answers[-1]  # Default to last answer
+                print(f"ERROR: In file {filepath}")
+                print(f"  Question: {question_text[:60]}...")
+                print(f"  Correct answer '{correct_answer}' not found in options:")
+                for i, ans in enumerate(answers, 1):
+                    print(f"    {i}. {ans}")
+                print(f"  Skipping this question due to format error.")
+                # Skip this question and continue to next
+                i += 6
+                continue
                 
             questions.append(QuizQuestion(question_text, answers, correct_answer))
             
