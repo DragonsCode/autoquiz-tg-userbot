@@ -205,3 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Telegram session files
+*.session
+*.session-journal
+
+# Quiz folders (user data)
+quizzes/*.txt
+!quizzes/example_python_basics.txt
