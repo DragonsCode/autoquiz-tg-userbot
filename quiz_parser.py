@@ -37,10 +37,13 @@ def parse_quiz_file(filepath: str) -> Optional[Quiz]:
     Expected format:
     - Line 1: Quiz name
     - Line 2: Quiz description
-    - Then for each question:
+    - Then for each question (repeated for all 20 questions):
       - Question text
-      - Answer options (one per line)
-      - Correct answer (duplicated)
+      - Answer option 1
+      - Answer option 2
+      - Answer option 3
+      - Answer option 4
+      - Correct answer (duplicate of one of the options above)
     
     Args:
         filepath: Path to the quiz file
@@ -56,6 +59,9 @@ def parse_quiz_file(filepath: str) -> Optional[Quiz]:
         with open(filepath, 'r', encoding='utf-8') as f:
             lines = [line.rstrip('\n') for line in f.readlines()]
             
+        # Remove empty lines
+        lines = [line for line in lines if line.strip()]
+            
         if len(lines) < 2:
             print(f"Error: File {filepath} must have at least 2 lines (name and description)")
             return None
@@ -64,54 +70,35 @@ def parse_quiz_file(filepath: str) -> Optional[Quiz]:
         description = lines[1]
         
         # Parse questions from remaining lines
+        # Each question has: question + 4 answers + 1 correct answer marker = 6 lines
         questions = []
         i = 2
         
         while i < len(lines):
-            # Skip empty lines
-            if not lines[i].strip():
-                i += 1
-                continue
+            # Need at least 6 lines for a complete question (question + 4 answers + correct marker)
+            if i + 5 >= len(lines):
+                break
                 
-            # Read question
-            question = lines[i]
-            i += 1
+            question_text = lines[i]
+            answer1 = lines[i + 1]
+            answer2 = lines[i + 2]
+            answer3 = lines[i + 3]
+            answer4 = lines[i + 4]
+            correct_answer = lines[i + 5]
             
-            # Read answers until we find the correct answer marker
-            answers = []
-            correct_answer = None
+            # Collect all answers
+            answers = [answer1, answer2, answer3, answer4]
             
-            while i < len(lines):
-                line = lines[i]
-                i += 1
+            # Verify that the correct answer matches one of the options
+            if correct_answer not in answers:
+                print(f"Warning: Correct answer '{correct_answer}' not found in answers for question '{question_text[:50]}...'")
+                # Try to find the closest match
+                correct_answer = answers[-1]  # Default to last answer
                 
-                # Empty line might indicate end of question
-                if not line.strip():
-                    break
-                    
-                # Check if this might be a new question (heuristic: starts with capital or number)
-                # But first we need to collect answers
-                answers.append(line)
-                
-                # Look ahead to see if next line is a duplicate (correct answer)
-                if i < len(lines) and lines[i].strip() == line.strip():
-                    correct_answer = line
-                    i += 1  # Skip the duplicate
-                    break
-                    
-                # If we have collected several answers and no duplicate yet,
-                # the last one might be the correct answer
-                if len(answers) >= 4 and correct_answer is None:
-                    # Assume last answer is correct and might not be duplicated
-                    correct_answer = answers[-1]
-                    break
+            questions.append(QuizQuestion(question_text, answers, correct_answer))
             
-            if not correct_answer and answers:
-                # If no duplicate found, assume last answer is correct
-                correct_answer = answers[-1]
-                
-            if question and answers and correct_answer:
-                questions.append(QuizQuestion(question, answers, correct_answer))
+            # Move to next question (6 lines per question)
+            i += 6
             
         if not questions:
             print(f"Warning: No questions found in {filepath}")
@@ -121,6 +108,8 @@ def parse_quiz_file(filepath: str) -> Optional[Quiz]:
         
     except Exception as e:
         print(f"Error parsing file {filepath}: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 

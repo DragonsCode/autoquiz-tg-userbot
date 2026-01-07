@@ -213,3 +213,6 @@ __marimo__/
 # Quiz folders (user data)
 quizzes/*.txt
 !quizzes/example_python_basics.txt
+
+# Test files
+test_*.py
