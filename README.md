@@ -56,29 +56,35 @@ Create `.txt` files in the `quizzes` folder with the following format:
 Quiz Name
 Quiz Description
 Question 1 text
-Answer option A
-Answer option B
-Answer option C
-Answer option D
-Answer option B
+A) Answer option A
+B) Answer option B
+C) Answer option C
+D) Answer option D
+
+B) Answer option B
+
 Question 2 text
-Answer option W
-Answer option X
-Answer option Y
-Answer option Z
-Answer option Z
+A) Answer W
+B) Answer X
+C) Answer Y
+D) Answer Z
+
+D) Answer Z
+
 ...
 ```
 
 **Format Rules:**
 - **Line 1**: Quiz name
-- **Line 2**: Quiz description
+- **Line 2**: Quiz description  
 - **Lines 3+**: Questions and answers
-  - Each question followed by its answer options (one per line)
-  - The correct answer is **duplicated** on the next line after all answers
-  - Must be an exact text match of one of the 4 answer options
+  - Question text (without A/B/C/D prefix)
+  - 4 answer options starting with `A)`, `B)`, `C)`, `D)`
+  - Blank line
+  - Correct answer (full text including the letter prefix, e.g., `B) Answer option B`)
+  - Blank line before next question
 
-**Example:** See `quizzes/example_python_basics.txt`
+**Example:** See `quizzes/swt1.txt` and `quizzes/swt2.txt`
 
 ## Usage
 
@@ -95,6 +101,7 @@ python main.py
    - Parse all `.txt` files in the quizzes folder
    - Connect to Telegram using your account
    - Create each quiz in @QuizBot automatically
+   - Save all quiz links to your Saved Messages when done
 
 ## Project Structure
 
@@ -136,14 +143,14 @@ autoquiz-tg-userbot/
 - Make sure your phone number is in international format (+1234567890)
 
 **Quiz creation issues**
-- The bot interaction with @QuizBot depends on its specific protocol
-- If quizzes are not created correctly, you may need to adjust the commands in `main.py`
+- The bot interaction with @QuizBot uses polls with the QUIZ type
+- Questions are sent as text messages, then answers as a poll with the correct answer marked
 - Monitor the Telegram conversation to see what @QuizBot expects
-- The current implementation sends: /start, /newquiz, name, description, questions, answers, /done
+- The flow is: /cancel → /newquiz → name → description → [question text + poll] × N → /done → time limit → shuffle option
 
 ## Important Notes
 
-⚠️ **@QuizBot Protocol**: The exact interaction protocol with @QuizBot may vary and is not officially documented. The implementation uses a general approach that should work with most quiz bots. You may need to adjust the message flow in `main.py` based on @QuizBot's actual behavior. Test with a single quiz first to verify the interaction works correctly.
+⚠️ **@QuizBot Protocol**: The implementation sends quiz questions as Telegram polls with the QUIZ type, which allows marking the correct answer. After all questions are added, the bot sets a 15-second time limit and enables shuffling of questions and answers. All created quiz links are automatically saved to your Saved Messages.
 
 ## License
 
