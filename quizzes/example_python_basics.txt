@@ -1,0 +1,122 @@
+Python Programming Basics
+Test your knowledge of Python fundamentals
+What is the output of print(2 ** 3)?
+6
+8
+9
+16
+8
+What keyword is used to define a function in Python?
+def
+function
+func
+define
+def
+Which of the following is a mutable data type in Python?
+tuple
+string
+list
+int
+list
+What does the len() function return?
+The type of an object
+The length of an object
+The value of an object
+The memory address
+The length of an object
+Which operator is used for floor division in Python?
+/
+//
+%
+**
+//
+What is the correct way to create a dictionary in Python?
+[]
+()
+{}
+<>
+{}
+Which method is used to add an element to the end of a list?
+add()
+append()
+insert()
+push()
+append()
+What does the 'break' statement do in a loop?
+Pauses the loop
+Exits the loop
+Skips to next iteration
+Restarts the loop
+Exits the loop
+Which of these is NOT a valid Python data type?
+int
+float
+char
+bool
+char
+What is the output of print(type([]))?
+<class 'tuple'>
+<class 'list'>
+<class 'dict'>
+<class 'set'>
+<class 'list'>
+How do you start a comment in Python?
+//
+#
+/*
+--
+#
+What is the result of '3' + '3' in Python?
+6
+33
+Error
+'33'
+'33'
+Which keyword is used to handle exceptions in Python?
+try
+catch
+exception
+handle
+try
+What does the 'continue' statement do in a loop?
+Exits the loop
+Pauses the loop
+Skips to next iteration
+Restarts the loop
+Skips to next iteration
+Which function is used to get input from the user?
+input()
+get()
+read()
+scan()
+input()
+What is the correct syntax for a lambda function?
+lambda x: x + 1
+function x: x + 1
+def x: x + 1
+lambda(x): x + 1
+lambda x: x + 1
+Which of the following is used to create a set in Python?
+[]
+()
+{}
+set()
+set()
+What does the 'pass' statement do?
+Exits the function
+Does nothing
+Raises an error
+Returns None
+Does nothing
+What is the output of print(bool(''))?
+True
+False
+Error
+None
+False
+Which method converts a string to lowercase?
+toLower()
+lowercase()
+lower()
+casefold()
+lower()
